@@ -1,4 +1,4 @@
-# Spring Boot - Grundlagen
+# Spring Boot - Vertiefung
 
 [![CI Build](https://github.com/ralf-ueberfuhr-ars/spring-boot-vertiefung-2024-06-24/actions/workflows/ci.yml/badge.svg)](https://github.com/ralf-ueberfuhr-ars/spring-boot-vertiefung-2024-06-24/actions/workflows/ci.yml)
 
