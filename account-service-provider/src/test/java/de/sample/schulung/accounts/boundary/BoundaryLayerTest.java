@@ -19,11 +19,7 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 // minimal
-@WebMvcTest(
-  properties = {
-    "application.customers.initialization.enabled=false"
-  }
-)
+@WebMvcTest
 @ComponentScan(basePackageClasses = BoundaryLayerTest.class)
 @Import(BoundaryLayerTest.BoundaryLayerTestConfiguration.class)
 @AutoConfigureMockMvc
