@@ -1,10 +1,12 @@
-package de.sample.schulung.accounts;
+package de.sample.schulung.accounts.boundary;
 
+import de.sample.schulung.accounts.domain.CustomersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,19 +14,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@WebMvcTest(
+  properties = {
+    "application.customers.initialization.enabled=false"
+  }
+)
+@ComponentScan(basePackageClasses = IndexPageTests.class)
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase
 public class IndexPageTests {
 
   @Autowired
   MockMvc mvc;
+  @MockBean // mocke Service, damit Kontext gleich
+  CustomersService service;
 
   @Test
   void shouldRedirectIndexPage() throws Exception {
     var location = mvc.perform(
-      get("/")
-    )
+        get("/")
+      )
       .andExpect(status().isFound())
       .andExpect(header().exists("Location"))
       .andReturn()

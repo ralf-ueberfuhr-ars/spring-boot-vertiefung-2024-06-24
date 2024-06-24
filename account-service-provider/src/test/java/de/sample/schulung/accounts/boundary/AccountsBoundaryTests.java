@@ -4,10 +4,10 @@ import de.sample.schulung.accounts.domain.CustomersService;
 import de.sample.schulung.accounts.domain.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,14 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(
-  // disable initializer for these tests
+@WebMvcTest(
   properties = {
     "application.customers.initialization.enabled=false"
   }
 )
+@ComponentScan(basePackageClasses = IndexPageTests.class)
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase
 public class AccountsBoundaryTests {
 
   @Autowired
