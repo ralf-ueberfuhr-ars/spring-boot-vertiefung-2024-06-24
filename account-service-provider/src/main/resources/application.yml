@@ -7,10 +7,3 @@ application:
   customers:
     initialization:
       enabled: ${CUSTOMERS_INITIALIZATION_ENABLED:false}
-logging:
-  level:
-    org:
-      springframework:
-        test:
-          context:
-            cache: DEBUG
