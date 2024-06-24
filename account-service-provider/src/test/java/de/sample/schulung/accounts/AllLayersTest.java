@@ -1,11 +1,12 @@
 package de.sample.schulung.accounts;
 
+import de.sample.schulung.accounts.config.InitializationProperty;
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import java.lang.annotation.*;
 
@@ -15,9 +16,7 @@ import java.lang.annotation.*;
 @Documented
 // minimal
 @SpringBootTest
-@TestPropertySource(
-  properties = "application.customers.initialization.enabled=false"
-)
+@InitializationProperty
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 // optional
@@ -26,7 +25,7 @@ import java.lang.annotation.*;
 @Tag("all-layers-test")
 public @interface AllLayersTest {
 
-  // TODO enabled-property als value?
+  @AliasFor(annotation = InitializationProperty.class)
   boolean enableInitializer() default false;
 
 }

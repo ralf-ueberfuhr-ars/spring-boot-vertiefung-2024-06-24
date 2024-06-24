@@ -1,5 +1,6 @@
 package de.sample.schulung.accounts.domain;
 
+import de.sample.schulung.accounts.config.InitializationProperty;
 import de.sample.schulung.accounts.domain.sink.CustomersSink;
 import de.sample.schulung.accounts.domain.sink.CustomersSinkInMemoryImpl;
 import org.junit.jupiter.api.Tag;
@@ -11,8 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import java.lang.annotation.*;
 
@@ -28,21 +30,20 @@ import java.lang.annotation.*;
   DataSourceTransactionManagerAutoConfiguration.class,
   HibernateJpaAutoConfiguration.class
 })
-@TestPropertySource(
-  properties = "application.customers.initialization.enabled=false"
-)
+@InitializationProperty
 // optional
 @ActiveProfiles({"test", "domain-test"})
 @Tag("integration-test")
 @Tag("domain-test")
 public @interface DomainLayerTest {
 
-  // TODO enabled-property als value?
+  @AliasFor(annotation = InitializationProperty.class)
   boolean enableInitializer() default false;
 
   @Configuration
   class DomainLayerConfiguration {
 
+    @Primary
     @Bean
     CustomersSink testCustomerSink() {
       // Mock or DefaultImpl?
