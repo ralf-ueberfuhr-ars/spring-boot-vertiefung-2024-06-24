@@ -2,22 +2,20 @@ package de.sample.schulung.accounts.config;
 
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.test.context.ContextConfigurationAttributes;
 import org.springframework.test.context.ContextCustomizer;
 import org.springframework.test.context.ContextCustomizerFactory;
 import org.springframework.test.context.MergedContextConfiguration;
 
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
 public class InitializationPropertyCustomizerFactory implements ContextCustomizerFactory {
 
   @Override
   public ContextCustomizer createContextCustomizer(Class<?> testClass, List<ContextConfigurationAttributes> configAttributes) {
-    return Optional
-      .ofNullable(AnnotatedElementUtils.findMergedAnnotation(testClass, InitializationProperty.class))
+    return TestAnnotationUtil
+      .findMergedAnnotation(testClass, InitializationProperty.class)
       .map(InitializationProperty::enableInitializer)
       //.map(this::createContextCustomizer)
       .map(InitializationContextCustomizer::new)
