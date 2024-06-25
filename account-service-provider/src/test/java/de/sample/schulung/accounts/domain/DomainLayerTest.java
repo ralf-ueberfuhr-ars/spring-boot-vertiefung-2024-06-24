@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.event.RecordApplicationEvents;
 
 import java.lang.annotation.*;
 
@@ -34,6 +35,7 @@ import java.lang.annotation.*;
   HibernateJpaAutoConfiguration.class
 })
 @InitializationProperty
+@RecordApplicationEvents
 // optional
 @ActiveProfiles({"test", "domain-test"})
 @Tag("integration-test")
