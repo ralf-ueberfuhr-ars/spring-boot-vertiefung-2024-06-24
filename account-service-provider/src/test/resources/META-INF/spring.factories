@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory=\
+  de.sample.schulung.accounts.config.InitializationPropertyCustomizerFactory
