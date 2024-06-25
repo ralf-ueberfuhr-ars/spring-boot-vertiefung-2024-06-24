@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -99,14 +100,16 @@ public class AccountsBoundaryTests {
 
   @Test
   void shouldReturn400OnCreateCustomerThatIsNoAdult() throws Exception {
+    var invalidBirthDate = LocalDate
+      .now()
+      .minusYears(10);
     mvc.perform(
         post("/api/v1/customers")
           .contentType(MediaType.APPLICATION_JSON)
-          // TODO dynamisch ermitteln
-          .content("""
+          .content(STR."""
             {
               "name": "Tom Mayer",
-              "birthdate": "2020-07-30",
+              "birthdate": "\{invalidBirthDate}",
               "state": "active"
             }
             """)
