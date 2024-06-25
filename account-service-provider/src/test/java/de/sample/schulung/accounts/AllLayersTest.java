@@ -1,6 +1,7 @@
 package de.sample.schulung.accounts;
 
 import de.sample.schulung.accounts.config.InitializationProperty;
+import de.sample.schulung.accounts.shared.interceptors.AutoConfigureInterceptors;
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +20,7 @@ import java.lang.annotation.*;
 @InitializationProperty
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
+@AutoConfigureInterceptors
 // optional
 @ActiveProfiles({"test", "all-layers-test"})
 @Tag("integration-test")

@@ -6,10 +6,10 @@ import de.sample.schulung.accounts.domain.events.CustomerDeletedEvent;
 import de.sample.schulung.accounts.domain.events.CustomerReplacedEvent;
 import de.sample.schulung.accounts.domain.sink.CustomersSink;
 import de.sample.schulung.accounts.shared.interceptors.LogPerformance;
+import de.sample.schulung.accounts.shared.interceptors.PublishEvent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 public class CustomersService {
 
   private final CustomersSink sink;
-  private final ApplicationEventPublisher eventPublisher;
 
   public Stream<Customer> getCustomers() {
     return sink.getCustomers();
@@ -34,9 +33,9 @@ public class CustomersService {
   }
 
   @LogPerformance
+  @PublishEvent(CustomerCreatedEvent.class)
   public void createCustomer(@Valid Customer customer) {
     sink.createCustomer(customer);
-    eventPublisher.publishEvent(new CustomerCreatedEvent(customer));
   }
 
   public Optional<Customer> findCustomerById(@NotNull UUID uuid) {
@@ -44,15 +43,15 @@ public class CustomersService {
   }
 
   @LogPerformance
+  @PublishEvent(CustomerReplacedEvent.class)
   public void replaceCustomer(@Valid Customer customer) {
-      sink.replaceCustomer(customer);
-      eventPublisher.publishEvent(new CustomerReplacedEvent(customer));
+    sink.replaceCustomer(customer);
   }
 
   @LogPerformance
+  @PublishEvent(CustomerDeletedEvent.class)
   public void deleteCustomer(@NotNull UUID uuid) {
     sink.deleteCustomer(uuid);
-    eventPublisher.publishEvent(new CustomerDeletedEvent(uuid));
   }
 
   public boolean exists(UUID uuid) {
