@@ -26,5 +26,17 @@ public class CustomersServiceTest {
 
   }
 
+  @Test
+  void shouldNotCreateCustomerThatIsNoAdult() {
+    var customer = new Customer();
+    customer.setName("Tom Mayer");
+    customer.setState(Customer.CustomerState.ACTIVE);
+    customer.setDateOfBirth(LocalDate.now().minusYears(17));
+
+    assertThatThrownBy(() -> service.createCustomer(customer))
+      .isNotNull();
+
+  }
+
 
 }

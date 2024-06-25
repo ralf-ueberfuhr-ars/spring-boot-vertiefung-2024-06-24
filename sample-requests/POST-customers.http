@@ -33,3 +33,15 @@ client.test('customer exists', () => {
   });
 
 %}
+
+###
+
+POST {{endpoint}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "T",
+  "birthdate": "1985-07-30",
+  "state": "active"
+}

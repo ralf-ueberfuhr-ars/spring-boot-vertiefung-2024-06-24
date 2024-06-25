@@ -1,5 +1,6 @@
 package de.sample.schulung.accounts.domain;
 
+import de.sample.schulung.accounts.shared.validation.Adult;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Customer {
   private UUID uuid;
   @Size(min = 3, max = 100)
   private String name;
+  @Adult
   private LocalDate dateOfBirth;
   private CustomerState state;
 

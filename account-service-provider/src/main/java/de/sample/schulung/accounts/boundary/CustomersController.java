@@ -2,6 +2,7 @@ package de.sample.schulung.accounts.boundary;
 
 import de.sample.schulung.accounts.domain.CustomersService;
 import de.sample.schulung.accounts.domain.NotFoundException;
+import de.sample.schulung.accounts.shared.validation.CustomerStateString;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class CustomersController {
     produces = MediaType.APPLICATION_JSON_VALUE)
   Stream<CustomerDto> getCustomers(
     @RequestParam(value = "state", required = false)
+    @CustomerStateString
     String stateFilter
   ) {
     return (
