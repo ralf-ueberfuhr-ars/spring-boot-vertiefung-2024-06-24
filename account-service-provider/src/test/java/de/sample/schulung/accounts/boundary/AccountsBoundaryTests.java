@@ -97,4 +97,46 @@ public class AccountsBoundaryTests {
     verifyNoInteractions(service);
   }
 
+  @Test
+  void shouldReturn400OnCreateCustomerThatIsNoAdult() throws Exception {
+    mvc.perform(
+        post("/api/v1/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          // TODO dynamisch ermitteln
+          .content("""
+            {
+              "name": "Tom Mayer",
+              "birthdate": "2020-07-30",
+              "state": "active"
+            }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+
+    // Mockito.verify(service, Mockito.never()).createCustomer(ArgumentMatchers.any());
+    verifyNoInteractions(service);
+  }
+
+  @Test
+  void shouldReturn400OnCreateCustomerWithInvalidState() throws Exception {
+    mvc.perform(
+        post("/api/v1/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          // TODO dynamisch ermitteln
+          .content("""
+            {
+              "name": "Tom Mayer",
+              "birthdate": "1985-07-30",
+              "state": "gelbekatze"
+            }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+
+    // Mockito.verify(service, Mockito.never()).createCustomer(ArgumentMatchers.any());
+    verifyNoInteractions(service);
+  }
+
 }

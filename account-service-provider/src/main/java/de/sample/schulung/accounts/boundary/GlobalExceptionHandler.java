@@ -23,4 +23,21 @@ public class GlobalExceptionHandler {
   public void handleValidationException() {
   }
 
+  /*
+  // Validierung im @Validated @Service
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ProblemDetail handleConstraintViolationException(ConstraintViolationException ex) {
+    return ...
+  }
+
+  // Validierung im @Controller
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    return ...
+  }
+
+  */
+
 }

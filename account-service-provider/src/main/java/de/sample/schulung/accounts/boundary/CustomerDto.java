@@ -1,6 +1,8 @@
 package de.sample.schulung.accounts.boundary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.sample.schulung.accounts.shared.validation.Adult;
+import de.sample.schulung.accounts.shared.validation.CustomerStateString;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,9 @@ public class CustomerDto {
   @Size(min = 3, max = 100)
   private String name;
   @JsonProperty("birthdate")
+  @Adult
   private LocalDate dateOfBirth;
+  @CustomerStateString
   private String state;
 
 }
