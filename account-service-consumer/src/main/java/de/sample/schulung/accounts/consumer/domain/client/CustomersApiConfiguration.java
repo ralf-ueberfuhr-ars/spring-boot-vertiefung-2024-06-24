@@ -1,6 +1,8 @@
 package de.sample.schulung.accounts.consumer.domain.client;
 
 import io.netty.channel.ChannelOption;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -15,22 +17,36 @@ import java.time.Duration;
 public class CustomersApiConfiguration {
 
   @Bean
-  CustomersApi customersApi() {
+  @ConfigurationProperties(prefix = "application.api-clients.customers")
+  WebClientConfig customersWebClientConfig() {
+    return new WebClientConfig();
+  }
+
+  @Bean
+  WebClient customersWebClient(
+    @Qualifier("customersWebClientConfig")
+    WebClientConfig config
+  ) {
     var httpClient = HttpClient.create()
-      .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 100)
-      .responseTimeout(Duration.ofMillis(1000));
-    var webClient = WebClient
+      .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, config.getConnectionTimeout())
+      .responseTimeout(Duration.ofMillis(config.getResponseTimeout()));
+    return WebClient
       .builder()
-      .baseUrl("http://localhost:8080/api/v1")
+      .baseUrl(config.getBaseUrl())
       .clientConnector(new ReactorClientHttpConnector(httpClient))
       .build();
-    var adapter = WebClientAdapter
-      .create(webClient);
-    HttpServiceProxyFactory factory = HttpServiceProxyFactory
-      .builderFor(adapter)
-      .build();
+  }
 
-    return factory
+  @Bean
+  CustomersApi customersApi(
+    @Qualifier("customersWebClient")
+    WebClient customersWebClient
+  ) {
+    var adapter = WebClientAdapter
+      .create(customersWebClient);
+    return HttpServiceProxyFactory
+      .builderFor(adapter)
+      .build()
       .createClient(CustomersApi.class);
   }
 
