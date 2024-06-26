@@ -6,13 +6,12 @@ import de.sample.schulung.accounts.domain.sink.CustomersSink;
 import de.sample.schulung.accounts.domain.sink.CustomersSinkInMemoryImpl;
 import de.sample.schulung.accounts.shared.interceptors.AutoConfigureInterceptors;
 import org.junit.jupiter.api.Tag;
-import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockReset;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +37,7 @@ import java.lang.annotation.*;
 @InitializationProperty
 @RecordApplicationEvents
 @AutoConfigureInterceptors
+@MockBean(CustomerEventLogger.class)
 // optional
 @ActiveProfiles({"test", "domain-test"})
 @Tag("integration-test")
@@ -57,17 +57,6 @@ public @interface DomainLayerTest {
       return new CustomersSinkInMemoryImpl();
     }
 
-    @Primary
-    @Bean
-    CustomerEventLogger testCustomerEventLogger() {
-      // Mock or DefaultImpl?
-      return Mockito.mock(
-        CustomerEventLogger.class,
-        MockReset.withSettings(MockReset.AFTER)
-      );
-    }
-
   }
-
 
 }
