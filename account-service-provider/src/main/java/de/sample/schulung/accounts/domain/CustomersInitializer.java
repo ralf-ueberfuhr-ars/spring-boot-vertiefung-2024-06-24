@@ -50,7 +50,7 @@ public class CustomersInitializer {
         new Customer(
           null,
           "Max",
-          LocalDate.of(2010, Month.FEBRUARY, 10),
+          LocalDate.of(2000, Month.FEBRUARY, 10),
           Customer.CustomerState.ACTIVE
         )
       );
@@ -58,7 +58,7 @@ public class CustomersInitializer {
         new Customer(
           UUID.randomUUID(),
           "Julia",
-          LocalDate.of(2011, Month.APRIL, 2),
+          LocalDate.of(2001, Month.APRIL, 2),
           Customer.CustomerState.DISABLED
         )
       );
