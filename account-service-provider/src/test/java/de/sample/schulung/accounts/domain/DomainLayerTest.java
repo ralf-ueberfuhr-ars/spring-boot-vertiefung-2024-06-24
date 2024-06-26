@@ -4,6 +4,7 @@ import de.sample.schulung.accounts.config.InitializationProperty;
 import de.sample.schulung.accounts.domain.logging.CustomerEventLogger;
 import de.sample.schulung.accounts.domain.sink.CustomersSink;
 import de.sample.schulung.accounts.domain.sink.CustomersSinkInMemoryImpl;
+import de.sample.schulung.accounts.shared.interceptors.AutoConfigureInterceptors;
 import org.junit.jupiter.api.Tag;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,6 +37,7 @@ import java.lang.annotation.*;
 })
 @InitializationProperty
 @RecordApplicationEvents
+@AutoConfigureInterceptors
 // optional
 @ActiveProfiles({"test", "domain-test"})
 @Tag("integration-test")
